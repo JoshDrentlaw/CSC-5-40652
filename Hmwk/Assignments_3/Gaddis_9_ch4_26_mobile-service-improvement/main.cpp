@@ -8,7 +8,7 @@
  * File:   main.cpp
  * Author: Josh
  *
- * Created on January 16, 2018, 8:32 PM
+ * Created on January 17, 2018, 5:55 AM
  */
 
 #include <cstdlib>
@@ -21,10 +21,10 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    // Declare variables
+    // Declare variable
     char pack;
     int gB;
-    float extraGB, total;
+    float extraGB, total, upgB, upgC;
     
     // Initialize values
     const float PAK_A = 39.99;
@@ -47,17 +47,27 @@ int main(int argc, char** argv) {
     cin >> pack;
     
     // Run calculations
-    // Validate input
+    //Validate input
     if (pack >= 65 && pack <= 67) {
         // Which package, A or B
         if (pack == 65 || pack == 66) {
             cout << "How many gigabytes of data did you use? ";
             cin >> gB;
+            cout << endl;
             switch (pack) {
                 case 65: // Package A
                     if (gB > GIG_A) {
                         extraGB = (gB-GIG_A)*10;
                         total = PAK_A+extraGB;
+                        // Is there savings?
+                        if (total > PAK_B) {
+                            upgB = total-PAK_B;
+                            if (total > PAK_C) {
+                                upgC = total-PAK_C;
+                                cout << "By switching to package C, you would save: $" << upgC << endl;
+                            }
+                            cout << "By switching to package B, you would save: $" << upgB << endl;
+                        }
                         cout << "Package A bill total: $" << total << endl;
                     }
                     else {
@@ -68,6 +78,11 @@ int main(int argc, char** argv) {
                     if (gB > GIG_B) {
                         extraGB = (gB-GIG_B)*5;
                         total = PAK_B+extraGB;
+                        // Is there savings?
+                        if (total > PAK_C) {
+                            upgC = total-PAK_C;
+                            cout << "By switching to package C, you would save: $" << upgC << endl;
+                        }
                         cout << "Package B bill total: $" << total << endl;
                     }
                     else {
