@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
             cout << "Paycheck: $" << payChck << endl;
             break;
         default:{
-            switch (hrsWrkd <= 40) {
+            switch (hrsWrkd > 0) {
                 case true: // Standard pay
                     payChck = payRate*hrsWrkd;
                     cout << "Paycheck: $" << payChck << endl;
