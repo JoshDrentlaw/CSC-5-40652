@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
         cout<<"Problem 1 -> Gaddis_9thEd_Chap5_Prob01_sum-of-numbers"<<endl;
         cout<<"Problem 2 -> Gaddis_9thEd_Chap5_Prob23_pattern-displays"<<endl;
         cout<<"Problem 3 -> Gaddis_9thEd_Chap5_Prob13_grt-and-lst"<<endl;
-        cout<<"Problem 4 -> Author_Edition_Chapter_Problem_Description 4"<<endl;
+        cout<<"Problem 4 -> Gaddis_9thEd_Chap5_Prob21_rand-num-game-enhanced"<<endl;
         cout<<"Problem 5 -> Author_Edition_Chapter_Problem_Description 5"<<endl;
         cout<<"Problem 6 -> Author_Edition_Chapter_Problem_Description 6"<<endl;
         cout<<"Problem 7 -> Author_Edition_Chapter_Problem_Description 7"<<endl;
@@ -152,7 +152,47 @@ int main(int argc, char** argv) {
                 break;
             }
             case 4: {
-                cout<<"Put problem 4 here "<<endl;break;
+                // Declare variables
+                int guess, randNum, guesses;
+                bool play = true;
+
+                // Let user play multiple times
+                while (play) {
+                    // Initialize variables
+                    srand(time(0));
+                    randNum = (rand() % 100) + 1;
+                    guesses = 0;
+
+                    cout << "Welcome to the Random number guessing game!!\n"
+                        << "All you need to do is enter a positive integer between 1 and 100.\n\n";
+
+                    // Run game
+                    while (guess != randNum) {
+                        cout << "Guess the random number: ";
+                        cin >> guess;
+
+                        // Guess was too high
+                        if (guess > randNum) {
+                            cout << "Too high, try again.\n";
+                            guesses++;
+                        }
+                        // Guess was too low
+                        else if (guess < randNum) {
+                            cout << "Too low, try again.\n";
+                            guesses++;
+                        }
+                        // Guess was just right
+                        else {
+                            guesses++;
+                            cout << "You did it! Good job!\n"
+                                    << "The number was " << randNum << ", and it took " << guesses << " guesses.\n";
+                        }
+                    }
+
+                    cout << "Play again? (1/0) ";
+                    cin >> play;
+                }
+                break;
             }
             case 5: {
                 cout<<"Put problem 5 here "<<endl;break;
