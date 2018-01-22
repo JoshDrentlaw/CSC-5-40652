@@ -17,6 +17,7 @@
 #include <ctime>     //Time Library for random seed
 #include <iomanip>   //Format Library
 #include <cmath>     //Math Library
+#include <fstream>   //File Stream Library
 using namespace std;
 
 //User Libraries Here
@@ -36,9 +37,9 @@ int main(int argc, char** argv) {
     
         //Menu with input of choice
         cout<<"Choose from the following Menu"<<endl;
-        cout<<"Problem 1 -> Gaddis_9thEd_Chap5_Prob01_Sum-of-Numbers"<<endl;
-        cout<<"Problem 2 -> Gaddis_9thEd_Chap5_Prob23_Pattern-displays"<<endl;
-        cout<<"Problem 3 -> Savitch_9thEd_Chap3_Prob7_etox"<<endl;
+        cout<<"Problem 1 -> Gaddis_9thEd_Chap5_Prob01_sum-of-numbers"<<endl;
+        cout<<"Problem 2 -> Gaddis_9thEd_Chap5_Prob23_pattern-displays"<<endl;
+        cout<<"Problem 3 -> Gaddis_9thEd_Chap5_prob13_grt-and-lst"<<endl;
         cout<<"Problem 4 -> Author_Edition_Chapter_Problem_Description 4"<<endl;
         cout<<"Problem 5 -> Author_Edition_Chapter_Problem_Description 5"<<endl;
         cout<<"Problem 6 -> Author_Edition_Chapter_Problem_Description 6"<<endl;
@@ -103,58 +104,51 @@ int main(int argc, char** argv) {
                 break;
             }
             case 3: {
-                //Declare Variables
-                float aproxE,term,x;
-                int counter;
+                // Declare variables
+                int getInt, current, testLow, testHigh;
 
-                //Initialize Variables
-                aproxE=1.0f;
-                counter=1;
-                x=1.0f;
-                term=x/counter++;
+                ofstream writeInt;
+                ifstream readInt;
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                // Open intFile.txt, the file we'll use to store the integers the user enters
+                writeInt.open("intFile.txt");
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                cout << "Please enter integers. Enter -99  to end the series.\n";
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                // User enters integers
+                do {
+                    cout << "Enter integer: ";
+                    cin >> getInt;
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                    writeInt << getInt << endl;
+                } while (getInt != -99);
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                // Close the write head
+                writeInt.close();
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                // Open read head on intFile.txt
+                readInt.open("intFile.txt");
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                // Initialize test variables
+                if (readInt) {
+                    readInt >> current;
+                    testHigh = current;
+                    testLow = current;
+                }
 
-                //Process/Map inputs to outputs
-                aproxE+=term;
-                cout<<"e^"<<x<<" approximately = "<<aproxE<<endl;
-                term*=x/counter++;
+                // Find largest and smallest integers
+                while (current != -99) {
+                    testHigh = (current > testHigh) ? current : testHigh;
+                    testLow = (current < testLow) ? current : testLow;
+                    readInt >> current;
+                }
 
-                //Output data
-                cout<<"e^"<<x<<"       exactly = "<<exp(x)<<endl<<endl;
+                // Close read head
+                readInt.close();
+
+                // Display greatest and lowest values
+                cout << "The greatest value is: " << testHigh << endl;
+                cout << "The lowest value is: " << testLow << endl;
                 break;
             }
             case 4: {
