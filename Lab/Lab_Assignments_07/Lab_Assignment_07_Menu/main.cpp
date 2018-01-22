@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
         cout<<"Choose from the following Menu"<<endl;
         cout<<"Problem 1 -> Gaddis_9thEd_Chap5_Prob01_sum-of-numbers"<<endl;
         cout<<"Problem 2 -> Gaddis_9thEd_Chap5_Prob23_pattern-displays"<<endl;
-        cout<<"Problem 3 -> Gaddis_9thEd_Chap5_prob13_grt-and-lst"<<endl;
+        cout<<"Problem 3 -> Gaddis_9thEd_Chap5_Prob13_grt-and-lst"<<endl;
         cout<<"Problem 4 -> Author_Edition_Chapter_Problem_Description 4"<<endl;
         cout<<"Problem 5 -> Author_Edition_Chapter_Problem_Description 5"<<endl;
         cout<<"Problem 6 -> Author_Edition_Chapter_Problem_Description 6"<<endl;
