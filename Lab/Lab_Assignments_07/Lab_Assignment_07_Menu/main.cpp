@@ -37,11 +37,11 @@ int main(int argc, char** argv) {
     
         //Menu with input of choice
         cout<<"Choose from the following Menu"<<endl;
-        cout<<"Problem 1 -> Gaddis_9thEd_Chap5_Prob01_sum-of-numbers"<<endl;
-        cout<<"Problem 2 -> Gaddis_9thEd_Chap5_Prob23_pattern-displays"<<endl;
-        cout<<"Problem 3 -> Gaddis_9thEd_Chap5_Prob13_grt-and-lst"<<endl;
-        cout<<"Problem 4 -> Gaddis_9thEd_Chap5_Prob21_rand-num-game-enhanced"<<endl;
-        cout<<"Problem 5 -> Author_Edition_Chapter_Problem_Description 5"<<endl;
+        cout<<"Problem 1 -> Gaddis_9thEd_Chap5_Prob01_sum-of-numbers 1"<<endl;
+        cout<<"Problem 2 -> Gaddis_9thEd_Chap5_Prob23_pattern-displays 2"<<endl;
+        cout<<"Problem 3 -> Gaddis_9thEd_Chap5_Prob13_grt-and-lst 3"<<endl;
+        cout<<"Problem 4 -> Gaddis_9thEd_Chap5_Prob21_rand-num-game-enhanced 4"<<endl;
+        cout<<"Problem 5 -> Gaddis_9thEd_Chap5_Prob22_square-display 5"<<endl;
         cout<<"Problem 6 -> Author_Edition_Chapter_Problem_Description 6"<<endl;
         cout<<"Problem 7 -> Author_Edition_Chapter_Problem_Description 7"<<endl;
         cout<<"Problem 8 -> Author_Edition_Chapter_Problem_Description 8"<<endl;
@@ -195,7 +195,27 @@ int main(int argc, char** argv) {
                 break;
             }
             case 5: {
-                cout<<"Put problem 5 here "<<endl;break;
+                // Declare variable
+                int dim;
+
+                // Initialize dim
+                cout << "Please enter a number between 1-15: ";
+                cin >> dim;
+
+                // Validate dim
+                while (dim < 1 || dim > 15) {
+                    cout << "Please enter a number between 1-15: ";
+                    cin >> dim;
+                }
+
+                // Print X in the dimensions specified
+                for (int i = 0; i < dim; i++) {
+                    for (int j = 0; j < dim; j++) {
+                        cout << "X";
+                    }
+                    cout << endl;
+                }
+                break;
             }
             case 6: {
                 cout<<"Put problem 6 here "<<endl;break;
