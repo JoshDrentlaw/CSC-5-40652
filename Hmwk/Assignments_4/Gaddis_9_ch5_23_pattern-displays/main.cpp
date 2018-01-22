@@ -21,22 +21,25 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
+    // Declare and initialize first pattern string
     string plusA = "";
     
     cout << "-------------\n";
     cout << " Pattern A\n";
     cout << "-------------\n";
     
+    // Run first pattern
     for (int i = 1; i <= 10; i++) {
         cout << (plusA += "+") << endl;
     }
     
-    cout << "-------------\n";
+    cout << "-------------\n\n";
     
     cout << "-------------\n";
     cout << " Pattern B\n";
     cout << "-------------\n";
     
+    // Run second pattern
     for (int i = 1; i <= 10; i++) {
         for (int j = 11-i; j > 0; j--) {
             cout << "+";
