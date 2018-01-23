@@ -37,16 +37,16 @@ int main(int argc, char** argv) {
     
         //Menu with input of choice
         cout<<"Choose from the following Menu"<<endl;
-        cout<<"Problem 1 -> Gaddis_9thEd_Chap5_Prob01_sum-of-numbers 1"<<endl;
-        cout<<"Problem 2 -> Gaddis_9thEd_Chap5_Prob23_pattern-displays 2"<<endl;
-        cout<<"Problem 3 -> Gaddis_9thEd_Chap5_Prob13_grt-and-lst 3"<<endl;
-        cout<<"Problem 4 -> Gaddis_9thEd_Chap5_Prob21_rand-num-game-enhanced 4"<<endl;
-        cout<<"Problem 5 -> Gaddis_9thEd_Chap5_Prob22_square-display 5"<<endl;
-        cout<<"Problem 6 -> Gaddis_9thEd_Chap5_Prob16_savings-acct-balance 6"<<endl;
-        cout<<"Problem 7 -> Gaddis_9thEd_Chap5_Prob02_ascii-codes 7"<<endl;
-        cout<<"Problem 8 -> Gaddis_9thEd_Chap5_Prob03_ocean-lvls 8"<<endl;
-        cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 9"<<endl;
-        cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 10"<<endl;
+        cout<<"Problem 1  -> Gaddis_9thEd_Chap5_Prob01_sum-of-numbers 1"<<endl;
+        cout<<"Problem 2  -> Gaddis_9thEd_Chap5_Prob23_pattern-displays 2"<<endl;
+        cout<<"Problem 3  -> Gaddis_9thEd_Chap5_Prob13_grt-and-lst 3"<<endl;
+        cout<<"Problem 4  -> Gaddis_9thEd_Chap5_Prob21_rand-num-game-enhanced 4"<<endl;
+        cout<<"Problem 5  -> Gaddis_9thEd_Chap5_Prob22_square-display 5"<<endl;
+        cout<<"Problem 6  -> Gaddis_9thEd_Chap5_Prob16_savings-acct-balance 6"<<endl;
+        cout<<"Problem 7  -> Gaddis_9thEd_Chap5_Prob02_ascii-codes 7"<<endl;
+        cout<<"Problem 8  -> Gaddis_9thEd_Chap5_Prob03_ocean-lvls 8"<<endl;
+        cout<<"Problem 9  -> Gaddis_9thEd_Chap5_Prob04_cals-burned 9"<<endl;
+        cout<<"Problem 10 -> Gaddis_9thEd_Chap5_Prob05_member-fees-increase 10"<<endl;
         cout<<"Type 1 to 10 only"<<endl<<endl;
         cin>>probNum;
     
@@ -305,7 +305,13 @@ int main(int argc, char** argv) {
                 break;
             }
             case 9: {
-                cout<<"Put problem 9 here "<<endl;break;
+                float cals = 3.6;
+
+                for (int i = 5; i <= 30; ) {
+                    cout << "Calories burned after " << i << " mins: " << i*cals << endl;
+                    i += 5;
+                }
+                break;
             }
             case 10: {
                 cout<<"Put problem 9 here "<<endl;break;
