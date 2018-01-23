@@ -42,11 +42,12 @@ int main(int argc, char** argv) {
         cout<<"Problem 3 -> Gaddis_9thEd_Chap5_Prob13_grt-and-lst 3"<<endl;
         cout<<"Problem 4 -> Gaddis_9thEd_Chap5_Prob21_rand-num-game-enhanced 4"<<endl;
         cout<<"Problem 5 -> Gaddis_9thEd_Chap5_Prob22_square-display 5"<<endl;
-        cout<<"Problem 6 -> Author_Edition_Chapter_Problem_Description 6"<<endl;
+        cout<<"Problem 6 -> Gaddis_9thEd_Chap5_Prob16_savings-acct-balance 6"<<endl;
         cout<<"Problem 7 -> Author_Edition_Chapter_Problem_Description 7"<<endl;
         cout<<"Problem 8 -> Author_Edition_Chapter_Problem_Description 8"<<endl;
         cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 9"<<endl;
-        cout<<"Type 1 to 9 only"<<endl<<endl;
+        cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 10"<<endl;
+        cout<<"Type 1 to 10 only"<<endl<<endl;
         cin>>probNum;
     
         //Output the results
@@ -218,7 +219,63 @@ int main(int argc, char** argv) {
                 break;
             }
             case 6: {
-                cout<<"Put problem 6 here "<<endl;break;
+                // Declare variables
+                float balance, annualInt, monthlyInt, earnedInt, withdraw, deposit;
+                int months, withdrawals, deposits;
+
+                // Format cout
+                cout.setf(ios::fixed);
+                cout.setf(ios::showpoint);
+                cout.precision(2);
+
+                // Initialize variables
+                cout << "What was the starting balance for the account: $";
+                cin >> balance;
+
+                cout << "What is the annual interest rate for your account: ";
+                cin >> annualInt;
+                annualInt /= 100;
+                monthlyInt = annualInt/12; 
+
+                cout << "How many months since the account was established: ";
+                cin >> months;
+
+                for (int i = 1; i <= months; i++) {
+                    do {
+                        cout << "How much was deposited in month " << i << ": $";
+                        cin >> deposit;
+                    } while (deposit < 0);
+                    // Tally deposits
+                    deposits += (deposit > 0) ? 1 : 0;
+
+                    do {
+                        cout << "How much was withdrawn in month " << i << ": $";
+                        cin >> withdraw;
+                    } while (withdraw < 0);
+                    // Tally withdrawals
+                    withdrawals += (withdraw > 0) ? 1 : 0;
+
+                    // Calculate monthly balance
+                    balance = (balance+deposit-withdraw)*(1+monthlyInt);
+                    // Tally earned interest
+                    earnedInt += (balance+deposit-withdraw)*(monthlyInt);
+
+                    if (balance < 0) {
+                        break;
+                    }
+                }
+
+                // Output
+                if (balance < 0) {
+                    cout << "Your account has a negative balance. Your account has been terminated.\n";
+                }
+                else {
+                    cout << "The current balance is: $" << balance << endl;
+                    cout << "Total earned interest:  $" << earnedInt << endl;
+                    cout << "Number of deposits:      " << deposits << endl;
+                    cout << "Number of withdrawals:   " << withdrawals << endl;
+                }
+                break;
             }
             case 7: {
                 cout<<"Put problem 7 here "<<endl;break;
