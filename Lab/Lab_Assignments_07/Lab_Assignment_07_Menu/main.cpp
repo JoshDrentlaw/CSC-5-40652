@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
         cout<<"Problem 4 -> Gaddis_9thEd_Chap5_Prob21_rand-num-game-enhanced 4"<<endl;
         cout<<"Problem 5 -> Gaddis_9thEd_Chap5_Prob22_square-display 5"<<endl;
         cout<<"Problem 6 -> Gaddis_9thEd_Chap5_Prob16_savings-acct-balance 6"<<endl;
-        cout<<"Problem 7 -> Author_Edition_Chapter_Problem_Description 7"<<endl;
+        cout<<"Problem 7 -> Gaddis_9thEd_Chap5_Prob02_ascii-codes 7"<<endl;
         cout<<"Problem 8 -> Author_Edition_Chapter_Problem_Description 8"<<endl;
         cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 9"<<endl;
         cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 10"<<endl;
@@ -278,7 +278,16 @@ int main(int argc, char** argv) {
                 break;
             }
             case 7: {
-                cout<<"Put problem 7 here "<<endl;break;
+                char code = 32;
+
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 16; j++) {
+                        cout << code << " ";
+                        code++;
+                    }
+                    cout << endl;
+                }
+                break;
             }
             case 8: {
                 cout<<"Put problem 8 here "<<endl;break;
