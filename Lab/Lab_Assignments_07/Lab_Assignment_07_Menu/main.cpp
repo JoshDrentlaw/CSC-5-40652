@@ -314,11 +314,24 @@ int main(int argc, char** argv) {
                 break;
             }
             case 10: {
-                cout<<"Put problem 9 here "<<endl;break;
+                float memDue = 2500;
+                float feeInc = 4e-2;
+
+                cout.setf(ios::fixed);
+                cout.setf(ios::showpoint);
+                cout.precision(2);
+
+                cout << "Starting fee: $" << memDue << endl;
+
+                for (int i = 1; i <= 6; i++) {
+                    memDue *= (1+feeInc);
+                    cout << "Fee at year " << i << ": $" << memDue << endl;
+                }
+                break;
             }
             default:cout<<"You choose to exit"<<endl;
         }
-    }while(probNum>=1&&probNum<=9);
+    }while(probNum>=1&&probNum<=10);
    
     //Exit
     return 0;
