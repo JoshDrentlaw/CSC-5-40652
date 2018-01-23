@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
         cout<<"Problem 5 -> Gaddis_9thEd_Chap5_Prob22_square-display 5"<<endl;
         cout<<"Problem 6 -> Gaddis_9thEd_Chap5_Prob16_savings-acct-balance 6"<<endl;
         cout<<"Problem 7 -> Gaddis_9thEd_Chap5_Prob02_ascii-codes 7"<<endl;
-        cout<<"Problem 8 -> Author_Edition_Chapter_Problem_Description 8"<<endl;
+        cout<<"Problem 8 -> Gaddis_9thEd_Chap5_Prob03_ocean-lvls 8"<<endl;
         cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 9"<<endl;
         cout<<"Problem 9 -> Author_Edition_Chapter_Problem_Description 10"<<endl;
         cout<<"Type 1 to 10 only"<<endl<<endl;
@@ -290,9 +290,24 @@ int main(int argc, char** argv) {
                 break;
             }
             case 8: {
-                cout<<"Put problem 8 here "<<endl;break;
+                float lvl = 1.5;
+
+                cout << "------------------------\n";
+                cout << " Ocean level rise in mm\n";
+                cout << "------------------------\n";
+                cout << "  Years\tmm\n";
+                cout << "------------------------\n";
+
+                for (int i = 1; i <= 25; i++) {
+                    cout<< "  " << i << "\t" << lvl << endl;
+                    lvl += 1.5;
+                }
+                break;
             }
             case 9: {
+                cout<<"Put problem 9 here "<<endl;break;
+            }
+            case 10: {
                 cout<<"Put problem 9 here "<<endl;break;
             }
             default:cout<<"You choose to exit"<<endl;
