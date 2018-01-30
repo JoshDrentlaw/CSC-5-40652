@@ -12,13 +12,28 @@
  */
 
 #include <cstdlib>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
 /*
- * 
+ * Mastermind
  */
 int main(int argc, char** argv) {
+    /*
+     * Declare and initialize variables
+     */
+    
+    // Players
+    bool p1, p2 = false;
+    
+    // Game variables
+    const int GUESSES = 12;
+    
+    int games;
+    string code, guess;
+    char hint1, hint2, hint3, hint4;
 
     return 0;
 }
