@@ -14,6 +14,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -37,29 +38,37 @@ int main(int argc, char** argv) {
     int p2Wins = 0;
     
     int p1Pts = 0;
+    int p1Total = 0;
     int p2Pts = 0;
+    int p2Total = 0;
     
     // Game variables
     const int GUESSES = 12;
     
+    char val = 0;
+    bool notVal = false;
+    
     int matches = 0;
     bool inCode = false;
-    char a;
+    char codePc;
     string code, guess, hints, chkHint;
+    ifstream codeDoc;
     
     cout << "Welcome to MASTERMIND! The game of code breaking!" << endl << endl;
     
     cout << "RULES OF THE GAME:" << endl;
     cout << "Valid colors: Red, Orange, Yellow, Green, Blue, Purple." << endl;
     cout << "Colors may be used multiple times." << endl;
-    cout << "When entering the code and subsequent guesses, enter like so: royg" << endl;
+    cout << "Enter exactly 4 colors!" << endl;
+    cout << "Enter the code in the first line of the code-doc.txt file." << endl;
+    cout << "When entering guesses, enter like so: royg" << endl;
     cout << "Use the first letter of the color, and do not separate with a space." << endl;
-    cout << "After The Breaker has guessed, The Maker enters hints: O for correct color, and X for correct color and position." << endl;
+    cout << "After The Breaker has guessed, The Maker enters hints: o for correct color, and x for correct color and position." << endl;
     cout << "Enter a dash (-) if the color is not in the code." << endl << endl;
     
     cout << "Example of a round when code is royg:" << endl;
     cout << "rybg" << endl;
-    cout << "XO X" << endl << endl;
+    cout << "xo-x" << endl << endl;
     
     cout << "The Breaker will have 12 tries to guess the code." << endl;
     cout << "Both players will agree on an even number of matches, and points are earned as The Maker at the end of each match." << endl;
@@ -88,19 +97,30 @@ int main(int argc, char** argv) {
             cin >> matches;
         } while (matches > 0 && matches % 2 == 1);
         
+        // Loop thru all matches
         while (matches > 0) {
-            bool notVal = false;
             // Player 1 is The Maker
             if (maker == 1) {
                 // Validate code
                 do {
+                    cout << endl;
+                    cout << "Player 1 Score: " << p1Total << "  Player 2 Score: " << p2Total << endl;
                     cout << "Player 2, TURN AROUND!! NO PEAKING!!" << endl;
-                    cout << "Player 1 is Code Maker. Please enter a code so the Code Breaker can't see: ";
-                    cin >> setw(4) >> code;
+                    do {
+                        cout << "Player 1 is Code Maker. Enter a code into the 'code-doc.txt' file, then enter 1 here to continue: ";
+                        cin.ignore(1);
+                        cin >> val;
+                    } while (val != 49);
+                    val = 0;
+                    codeDoc.open("code-doc.txt");
+                    if (codeDoc) {
+                        codeDoc >> code;
+                        codeDoc.close();
+                    }
 
                     for (int i = 0; i < 4; i++) {
-                        a = tolower(code[i]);
-                        switch (a) {
+                        codePc = tolower(code[i]);
+                        switch (codePc) {
                             case 98:
                                 notVal = false;
                                 break;
@@ -126,19 +146,30 @@ int main(int argc, char** argv) {
                 } while (notVal);
                 
                 
-                cout << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl;
+                cout << endl << endl;
             }
             // Player 2 is The Maker
             else if (maker == 2) {
                 // Validate code
                 do {
+                    cout << endl;
+                    cout << "Player 1 Score: " << p1Total << "  Player 2 Score: " << p2Total << endl;
                     cout << "Player 1, TURN AROUND!! NO PEAKING!!" << endl;
-                    cout << "Player 2 is Code Maker. Please enter a code so the Code Breaker can't see: ";
-                    cin >> setw(4) >> code;
+                    do {
+                        cout << "Player 2 is Code Maker. Enter a code into the 'code-doc.txt' file, then enter 1 here to continue: ";
+                        cin.ignore(1);
+                        cin >> val;
+                    } while (val != 49);
+                    val = 0;
+                    codeDoc.open("code-doc.txt");
+                    if (codeDoc) {
+                        codeDoc >> code;
+                        codeDoc.close();
+                    }
                     
                     for (int i = 0; i < 4; i++) {
-                        a = tolower(code[i]);
-                        switch (a) {
+                        codePc = tolower(code[i]);
+                        switch (codePc) {
                             case 98:
                                 notVal = false;
                                 break;
@@ -164,7 +195,7 @@ int main(int argc, char** argv) {
                 } while (notVal);
                 
                 
-                cout << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl;
+                cout << endl << endl;
             }
             
             // Guessing begins
@@ -178,7 +209,6 @@ int main(int argc, char** argv) {
                 
                 cout << "Guess " << i+1 << ":" << endl;
                 cin >> setw(4) >> guess;
-                cout << "'" << guess << "'" << endl;
                 
                 // Compare guess to code. With 2 human players, this is to keep The Maker honest!
                 for (int j = 0; j < 4; j++) {
@@ -199,15 +229,58 @@ int main(int argc, char** argv) {
                         chkHint += "-";
                     }
                 }
-                //cin.ignore(2, '\n');
-                cin >> setw(4) >> hints;
                 
+                // The code was guessed correctly
+                if (chkHint == "xxxx") {
+                    cout << "Congratulations! You broke the code!" << endl;
+                    cout << "Code: " << code << endl << endl;
+                    
+                    cout << "Player " << ((maker == 1) ? 1 : 2) << " earned "
+                            << ((maker == 1) ? p1Pts : p2Pts) << " points this match." << endl << endl;
+                    
+                    p1Total += p1Pts;
+                    p2Total += p2Pts;
+                    p1Pts = 0;
+                    p2Pts = 0;
+                    
+                    maker = (maker == 1) ? 2 : 1;
+                    break;
+                }
+                
+                // Check if proper hints were given
+                cin >> setw(4) >> hints;
                 if (hints != chkHint) {
                     cout << "The Maker isn't being honest..." << endl;
                     cout << "Actual hint: " << chkHint << endl;
                 }
+                
+                // Give The Maker points if The Breaker guesses wrong
+                if (i == GUESSES-1) {
+                    cout << "Oh no! The code was not broken... I guess you'll never know what it was..." << endl << endl;
+                    (maker == 1) ? p1Pts += 2 : p2Pts += 2;
+                    
+                    cout << "Player " << ((maker == 1) ? 1 : 2) << " earned "
+                            << ((maker == 1) ? p1Pts : p2Pts) << " points this match." << endl << endl;
+                    
+                    p1Total += p1Pts;
+                    p2Total += p2Pts;
+                    p1Pts = 0;
+                    p2Pts = 0;
+                    
+                    maker = (maker == 1) ? 2 : 1;
+                }
+                else {
+                    (maker == 1) ? p1Pts++ : p2Pts++;
+                    cout << "p1Pts: " << p1Pts << " p2Pts: " << p2Pts << endl;
+                }
             }
+            matches--;
         }
+        
+        cout << "GAME OVER!!" << endl;
+        cout << "Final Score" << endl;
+        cout << "Player 1: " << p1Total << "  Player 2: " << p2Total << endl;
+        cout << "WINNER: " << (p1Total > p2Total) ? "Player 1!" : "Player 2!" << endl;
     }
 
     return 0;
