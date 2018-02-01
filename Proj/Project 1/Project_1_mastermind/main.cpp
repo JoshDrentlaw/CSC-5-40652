@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
     cout << "When entering the code and subsequent guesses, enter like so: royg" << endl;
     cout << "Use the first letter of the color, and do not separate with a space." << endl;
     cout << "After The Breaker has guessed, The Maker enters hints: O for correct color, and X for correct color and position." << endl;
-    cout << "Enter nothing if the color is not in the code." << endl << endl;
+    cout << "Enter a dash (-) if the color is not in the code." << endl << endl;
     
     cout << "Example of a round when code is royg:" << endl;
     cout << "rybg" << endl;
@@ -172,35 +172,35 @@ int main(int argc, char** argv) {
             
             // The Breaker will have 12 attempts at guessing the code
             for (int i = 0; i < GUESSES; i++) {
-                guess, hints, chkHint = "";
+                guess = "";
+                hints = "";
+                chkHint = "";
+                
                 cout << "Guess " << i+1 << ":" << endl;
-                cin.ignore();
-                getline(cin, guess);
+                cin >> setw(4) >> guess;
+                cout << "'" << guess << "'" << endl;
                 
                 // Compare guess to code. With 2 human players, this is to keep The Maker honest!
-                for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 4; j++) {
-                        inCode = false;
-                        if (code[i] == guess[j]) {
-                            if (i == j) {
-                                chkHint += "X";
-                                cout << "X";
+                for (int j = 0; j < 4; j++) {
+                    inCode = false;
+                    for (int k = 0; k < 4; k++) {
+                        if (guess[j] == code[k]) {
+                            if (j == k) {
+                                chkHint += "x";
                                 inCode = true;
                             }
                             else {
-                                chkHint += "O";
-                                cout << "O";
+                                chkHint += "o";
                                 inCode = true;
                             }
                         }
                     }
-                    if (inCode) {
-                        chkHint += " ";
-                        cout << " ";
+                    if (!inCode) {
+                        chkHint += "-";
                     }
                 }
-                cin.ignore();
-                getline(cin, hints);
+                //cin.ignore(2, '\n');
+                cin >> setw(4) >> hints;
                 
                 if (hints != chkHint) {
                     cout << "The Maker isn't being honest..." << endl;
