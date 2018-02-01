@@ -27,15 +27,10 @@ int main(int argc, char** argv) {
      */
     
     // Player variables
-    bool p1, p2 = false;
-    
     int humans = 0;
     
     int maker = 1;
     int breaker = 2;
-    
-    int p1Wins = 0;
-    int p2Wins = 0;
     
     int p1Pts = 0;
     int p1Total = 0;
@@ -81,13 +76,13 @@ int main(int argc, char** argv) {
     
     // Validate # of human players
     do {
-        cout << "Enter number of human players (1 or 2): ";
+        cout << "Enter number of human players (only 2 for now): ";
         cin >> humans;
     } while (humans < 0 || humans > 2);
     
     // Play with the computer
     if (humans == 1) {
-        
+        cout << "No computer player yet. Sorry." << endl;
     }
     // Play against a friend
     else if (humans == 2) {
