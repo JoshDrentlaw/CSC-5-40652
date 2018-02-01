@@ -244,35 +244,39 @@ int main(int argc, char** argv) {
                     p2Pts = 0;
                     
                     maker = (maker == 1) ? 2 : 1;
-                    break;
-                }
-                
-                // Check if proper hints were given
-                cin >> setw(4) >> hints;
-                if (hints != chkHint) {
-                    cout << "The Maker isn't being honest..." << endl;
-                    cout << "Actual hint: " << chkHint << endl;
-                }
-                
-                // Give The Maker points if The Breaker guesses wrong
-                if (i == GUESSES-1) {
-                    cout << "Oh no! The code was not broken... I guess you'll never know what it was..." << endl << endl;
-                    (maker == 1) ? p1Pts += 2 : p2Pts += 2;
                     
-                    cout << "Player " << ((maker == 1) ? 1 : 2) << " earned "
-                            << ((maker == 1) ? p1Pts : p2Pts) << " points this match." << endl << endl;
-                    
-                    p1Total += p1Pts;
-                    p2Total += p2Pts;
-                    p1Pts = 0;
-                    p2Pts = 0;
-                    
-                    maker = (maker == 1) ? 2 : 1;
+                    i = GUESSES;
                 }
                 else {
-                    (maker == 1) ? p1Pts++ : p2Pts++;
-                    cout << "p1Pts: " << p1Pts << " p2Pts: " << p2Pts << endl;
+                    // Check if proper hints were given
+                    cin >> setw(4) >> hints;
+                    if (hints != chkHint) {
+                        cout << "The Maker isn't being honest..." << endl;
+                        cout << "Actual hint: " << chkHint << endl;
+                    }
+
+                    // Give The Maker points if The Breaker guesses wrong
+                    if (i == GUESSES-1) {
+                        cout << "Oh no! The code was not broken... I guess you'll never know what it was..." << endl << endl;
+                        (maker == 1) ? p1Pts += 2 : p2Pts += 2;
+
+                        cout << "Player " << ((maker == 1) ? 1 : 2) << " earned "
+                                << ((maker == 1) ? p1Pts : p2Pts) << " points this match." << endl << endl;
+
+                        p1Total += p1Pts;
+                        p2Total += p2Pts;
+                        p1Pts = 0;
+                        p2Pts = 0;
+
+                        maker = (maker == 1) ? 2 : 1;
+                    }
+                    else {
+                        (maker == 1) ? p1Pts++ : p2Pts++;
+                        cout << "p1Pts: " << p1Pts << " p2Pts: " << p2Pts << endl;
+                    }
                 }
+                
+                
             }
             matches--;
         }
@@ -280,7 +284,7 @@ int main(int argc, char** argv) {
         cout << "GAME OVER!!" << endl;
         cout << "Final Score" << endl;
         cout << "Player 1: " << p1Total << "  Player 2: " << p2Total << endl;
-        cout << "WINNER: " << (p1Total > p2Total) ? "Player 1!" : "Player 2!" << endl;
+        cout << "WINNER: " << ((p1Total > p2Total) ? "Player 1!" : "Player 2!") << endl;
     }
 
     return 0;
