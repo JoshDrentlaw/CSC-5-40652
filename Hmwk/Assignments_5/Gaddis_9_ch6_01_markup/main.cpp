@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     retail = calculateRetail(whlCost, markup);
     
     // Output retail price
-    cout << "The retail cost of the item is: $" << setprecision(2) << retail << endl;
+    cout << "The retail cost of the item is: $" << fixed << showpoint << setprecision(2) << retail << endl;
     
     // Exit
     return 0;

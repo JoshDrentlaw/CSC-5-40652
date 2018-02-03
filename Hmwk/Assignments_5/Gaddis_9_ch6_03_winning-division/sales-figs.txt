@@ -1,4 +1,4 @@
 1 Northeast
-2 Southeast
-3 Southwest
+5 Southeast
+6 Southwest
 4 Northwest

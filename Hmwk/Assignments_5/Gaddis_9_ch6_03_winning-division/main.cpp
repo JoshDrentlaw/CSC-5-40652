@@ -89,7 +89,7 @@ void findHighest(float ne, float se, float sw, float nw) {
             }
         }
         
-        cout << "The " << div << " division was the highest: $" << highest << endl;
+        cout << "The " << div << " division was the highest: $" << fixed << showpoint << setprecision(2) << highest << endl;
         
         readFigs.close();
     }
