@@ -20,6 +20,7 @@ using namespace std;
 
 // Function prototypes
 string validateCode(int, const char (&)[6]);
+string getWinner(int, int);
 
 /*
  * Mastermind
@@ -33,7 +34,8 @@ int main(int argc, char** argv) {
     int humans = 0;
     
     int maker = 1;
-    int breaker = 2;
+    
+    int winner = 1;
     
     int p1Pts = 0;
     int p1Total = 0;
@@ -187,14 +189,16 @@ int main(int argc, char** argv) {
         cout << "GAME OVER!!" << endl;
         cout << "Final Score" << endl;
         cout << "Player 1: " << p1Total << "  Player 2: " << p2Total << endl;
-        cout << "WINNER: " << ((p1Total > p2Total) ? "Player 1!" : "Player 2!") << endl;
+        cout << "WINNER: " << getWinner(p1Total, p2Total) << endl;
     }
 
     return 0;
 }
 
 /*
- * This function asks The maker the enter a code and then validates it. 
+ * This function asks The Maker to enter a code and then validates it. 
+ * It takes who The Maker is and a const array containing the valid colors as arguments.
+ * It returns a string containing the code written in 'code-doc.txt'.
  */
 string validateCode(int maker, const char (&colors)[6]) {
     char val = 0;
@@ -227,4 +231,21 @@ string validateCode(int maker, const char (&colors)[6]) {
     } while (notVal);
     
     return code;
+}
+
+/*
+ * getWinner returns who the winner is based off total accumulated points.
+ * It takes both players scores as arguments.
+ * It returns a string announcing the winner, or if there is a tie. 
+ */
+string getWinner(int p1, int p2) {
+    if (p1 > p2) {
+        return "Player 1";
+    }
+    else if (p1 < p2) {
+        return "Player 2";
+    }
+    else {
+        return "It's a Tie!";
+    }
 }
