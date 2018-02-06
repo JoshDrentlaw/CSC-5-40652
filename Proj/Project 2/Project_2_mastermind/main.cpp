@@ -20,6 +20,7 @@ using namespace std;
 
 // Function prototypes
 string validateCode(int, const char (&)[6]);
+string giveHints(string, string, string);
 string getWinner(int, int);
 
 /*
@@ -48,7 +49,6 @@ int main(int argc, char** argv) {
     char colors[SIZE] = {'r', 'o', 'y', 'g', 'b', 'p'};
     
     int matches = 0;
-    bool inCode = false;
     string code, guess, hints, chkHint;
     
     cout << "Welcome to MASTERMIND! The game of code breaking!" << endl << endl;
@@ -116,24 +116,7 @@ int main(int argc, char** argv) {
                 cin >> setw(4) >> guess;
                 
                 // Compare guess to code. With 2 human players, this is to keep The Maker honest!
-                for (int j = 0; j < 4; j++) {
-                    inCode = false;
-                    for (int k = 0; k < 4; k++) {
-                        if (guess[j] == code[k]) {
-                            if (j == k) {
-                                chkHint += "x";
-                                inCode = true;
-                            }
-                            else {
-                                chkHint += "o";
-                                inCode = true;
-                            }
-                        }
-                    }
-                    if (!inCode) {
-                        chkHint += "-";
-                    }
-                }
+                chkHint = giveHints(guess, code);
                 
                 // The code was guessed correctly
                 if (chkHint == "xxxx") {
@@ -231,6 +214,37 @@ string validateCode(int maker, const char (&colors)[6]) {
     } while (notVal);
     
     return code;
+}
+
+/*
+ * giveHints compares The Breakers guess to the code, and return what the hints
+ * for the guess should be. In the 2 human player version, this keeps The Maker
+ * honest. In the 1 human player version it will generate the hints for the computer.
+ * It takes 2 strings: the guess and the code, and returns the chkHint string.
+ */
+string giveHints(string guess, string code) {
+    string chkHint = "";
+    bool inCode;
+    
+    for (int j = 0; j < 4; j++) {
+        inCode = false;
+        for (int k = 0; k < 4; k++) {
+            if (guess[j] == code[k]) {
+                if (j == k) {
+                    chkHint += "x";
+                    inCode = true;
+                }
+                else {
+                    chkHint += "o";
+                    inCode = true;
+                }
+            }
+        }
+        if (!inCode) {
+            chkHint += "-";
+        }
+    }
+    return chkHint;
 }
 
 /*
