@@ -17,6 +17,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 
 using namespace std;
 
@@ -25,8 +26,10 @@ string readCode();
 string computerCode(const char []);
 string validateCode(int, const char (&)[6]);
 string computerGuess();
-string giveHints(string, string);
+string getHints(string, string);
 string getWinner(int, int);
+
+int search();
 
 /*
  * Mastermind
@@ -48,13 +51,16 @@ int main(int argc, char** argv) {
     int p2Pts = 0;
     int p2Total = 0;
     
+    string comGues[] = {};
+    string comHint[] = {};
+    
     // Game variables
     const int GUESSES = 12;
     const int SIZE = 6;
     char colors[SIZE] = {'r', 'o', 'y', 'g', 'b', 'p'};
     
     int matches = 0;
-    string code, guess, hints, getHint;
+    string code, guess, hints, snitch;
     
     cout << "Welcome to MASTERMIND! The game of code breaking!" << endl << endl;
     
@@ -70,8 +76,9 @@ int main(int argc, char** argv) {
     
     cout << "Example of a round when code is royg:" << endl;
     cout << "rybg" << endl;
-    cout << "xo-x" << endl << endl;
+    cout << "xxo" << endl << endl;
     
+    cout << "The order of the hints do not correspond with the order of the guess." << endl;
     cout << "The Breaker will have 12 tries to guess the code." << endl;
     cout << "Both players will agree on an even number of matches, and points are earned as The Maker at the end of each match." << endl;
     cout << "Players alternate between The Maker and Breaker roles." << endl;
@@ -96,34 +103,50 @@ int main(int argc, char** argv) {
         cin >> matches;
     } while (matches > 0 && matches % 2 == 1);
     
-    // Play with the computer
-    if (humans == 1) {
-        while (matches > 0) {
-            cout << endl;
-            cout << "Player 1 Score: " << p1Total << "  Player 2 Score: " << p2Total << endl;
-            
-            // Human is The Maker
-            if (maker == 1) {
-                // Validate code
-                code = validateCode(maker, colors);
-            
+    switch (humans) {
+        // Play with the computer
+        case 1:
+            while (matches > 0) {
+                cout << endl;
+                cout << "Player 1 Score: " << p1Total << "  Player 2 Score: " << p2Total << endl;
+
+                // Human is The Maker
+                if (maker == 1) {
+                    // Validate code
+                    code = validateCode(maker, colors);
+                }
+                // Computer is The Maker
+                else {
+                    // Get computer code
+                    code = computerCode(colors);
+                }
+
                 // Guessing begins
                 cout << endl << endl;
                 cout << "Start guessing!" << endl;
-                
+
                 // The Breaker will have 12 attempts at guessing the code
                 for (int i = 0; i < GUESSES; i++) {
                     guess = "";
                     hints = "";
-                    getHint = "";
+                    snitch = "";
 
-                    // Computer guesses
                     cout << "Guess " << i+1 << ":" << endl;
-                    guess = (i == 0) ? "royg" : computerGuess();
+                    if (maker == 1) {
+                        cin >> setw(4) >> guess;
+                    }
+                    else {
+                        // Computer guesses
+                        //guess = (i == 0) ? "royg" : computerGuess();  This is
+                        // what I wanted to do, but I did not have time to come
+                        // up with the computerGuess() function.
+                        guess = "royg";
+                        comGues[i] = guess;
+                    }
 
                     // Human gives hints to computer
-                    getHint = giveHints(guess, code);
-                    
+                    snitch = getHints(guess, code);
+
                     // The code was guessed correctly
                     if (guess == code) {
                         cout << "Congratulations! You broke the code!" << endl;
@@ -145,10 +168,11 @@ int main(int argc, char** argv) {
                     else {
                         // Check if proper hints were given
                         cin >> setw(4) >> hints;
-                        if (hints != getHint) {
+                        if (hints != snitch) {
                             cout << "The Maker isn't being honest..." << endl;
-                            cout << "Actual hint: " << getHint << endl;
+                            cout << "Actual hint: " << snitch << endl;
                         }
+                        comHint[i] = hints;
 
                         // Give The Maker points if The Breaker guesses wrong
                         if (i == GUESSES-1) {
@@ -173,28 +197,33 @@ int main(int argc, char** argv) {
                     }
                 }
             }
-            // Computer is The Maker
-            else {
-                // Get computer code
-                code = computerCode(colors);
-            
+            break;
+        // Play against a friend
+        case 2:
+            // Loop thru all matches
+            while (matches > 0) {
+                cout << endl;
+                cout << "Player 1 Score: " << p1Total << "  Player 2 Score: " << p2Total << endl;
+                cout << "PLayer " << ((maker == 1) ? 2 : 1) << ", TURN AROUND!! NO PEAKING!!" << endl;
+                // Validate code
+                code = validateCode(maker, colors);
+
                 // Guessing begins
                 cout << endl << endl;
                 cout << "Start guessing!" << endl;
-                
+
                 // The Breaker will have 12 attempts at guessing the code
                 for (int i = 0; i < GUESSES; i++) {
                     guess = "";
                     hints = "";
-                    getHint = "";
+                    snitch = "";
 
-                    // Human guesses
                     cout << "Guess " << i+1 << ":" << endl;
                     cin >> setw(4) >> guess;
 
-                    // Computer gives hints to the human
-                    getHint = giveHints(guess, code);
-                    
+                    // Compare guess to code. With 2 human players, this is to keep The Maker honest!
+                    snitch = getHints(guess, code);
+
                     // The code was guessed correctly
                     if (guess == code) {
                         cout << "Congratulations! You broke the code!" << endl;
@@ -214,7 +243,12 @@ int main(int argc, char** argv) {
                         i = GUESSES;
                     }
                     else {
-                        cout << getHint << endl;
+                        // Check if proper hints were given
+                        cin >> setw(4) >> hints;
+                        if (hints != snitch) {
+                            cout << "The Maker isn't being honest..." << endl;
+                            cout << "Actual hint: " << snitch << endl;
+                        }
 
                         // Give The Maker points if The Breaker guesses wrong
                         if (i == GUESSES-1) {
@@ -238,92 +272,15 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
+                matches--;
             }
-        }
+            break;
     }
-    // Play against a friend
-    else if (humans == 2) {
-        
-        // Loop thru all matches
-        while (matches > 0) {
-            cout << endl;
-            cout << "Player 1 Score: " << p1Total << "  Player 2 Score: " << p2Total << endl;
-            cout << "PLayer " << ((maker == 1) ? 2 : 1) << ", TURN AROUND!! NO PEAKING!!" << endl;
-            // Validate code
-            code = validateCode(maker, colors);
-            
-            // Guessing begins
-            cout << endl << endl;
-            cout << "Start guessing!" << endl;
-            
-            // The Breaker will have 12 attempts at guessing the code
-            for (int i = 0; i < GUESSES; i++) {
-                guess = "";
-                hints = "";
-                getHint = "";
-                
-                cout << "Guess " << i+1 << ":" << endl;
-                cin >> setw(4) >> guess;
-                
-                // Compare guess to code. With 2 human players, this is to keep The Maker honest!
-                getHint = giveHints(guess, code);
-                
-                // The code was guessed correctly
-                if (guess == code) {
-                    cout << "Congratulations! You broke the code!" << endl;
-                    cout << "Code: " << code << endl << endl;
-                    
-                    cout << "Player " << maker << " earned "
-                            << ((maker == 1) ? p1Pts : p2Pts) << " points this match." << endl << endl;
-                    
-                    p1Total += p1Pts;
-                    p2Total += p2Pts;
-                    p1Pts = 0;
-                    p2Pts = 0;
-                    
-                    maker = (maker == 1) ? 2 : 1;
-                    cout << "The Maker is now Player " << maker << endl;
-                    
-                    i = GUESSES;
-                }
-                else {
-                    // Check if proper hints were given
-                    cin >> setw(4) >> hints;
-                    if (hints != getHint) {
-                        cout << "The Maker isn't being honest..." << endl;
-                        cout << "Actual hint: " << getHint << endl;
-                    }
-
-                    // Give The Maker points if The Breaker guesses wrong
-                    if (i == GUESSES-1) {
-                        cout << "Oh no! The code was not broken... I guess you'll never know what it was..." << endl << endl;
-                        (maker == 1) ? p1Pts += 2 : p2Pts += 2;
-
-                        cout << "Player " << maker << " earned "
-                                << ((maker == 1) ? p1Pts : p2Pts) << " points this match." << endl << endl;
-
-                        p1Total += p1Pts;
-                        p2Total += p2Pts;
-                        p1Pts = 0;
-                        p2Pts = 0;
-
-                        maker = (maker == 1) ? 2 : 1;
-                        cout << "The Maker is now Player " << maker << endl;
-                    }
-                    else {
-                        (maker == 1) ? p1Pts++ : p2Pts++;
-                        cout << "p1Pts: " << p1Pts << " p2Pts: " << p2Pts << endl;
-                    }
-                }
-            }
-            matches--;
-        }
-        
-        cout << "GAME OVER!!" << endl;
-        cout << "Final Score" << endl;
-        cout << "Player 1: " << p1Total << "  Player 2: " << p2Total << endl;
-        cout << "WINNER: " << getWinner(p1Total, p2Total) << endl;
-    }
+     
+    cout << "GAME OVER!!" << endl;
+    cout << "Final Score" << endl;
+    cout << "Player 1: " << p1Total << "  Player 2: " << p2Total << endl;
+    cout << "WINNER: " << getWinner(p1Total, p2Total) << endl;
 
     return 0;
 }
@@ -336,7 +293,8 @@ int main(int argc, char** argv) {
 
 
 /*
- * 
+ * readCode reads the code from the code-doc.txt file and returns the string it gets.
+ * It takes no arguments.
  */
 string readCode() {
     ifstream codeDoc;
@@ -421,8 +379,9 @@ string validateCode(int maker, const char (&colors)[6]) {
  * honest. In the 1 human player version it will generate the hints for the computer.
  * It takes 2 strings: the guess and the code, and returns the chkHint string.
  */
-string giveHints(string guess, string code) {
-    string getHint = "";
+string getHints(string guess, string code) {
+    string right = "";
+    string almost = "";
     bool inCode;
     
     for (int j = 0; j < 4; j++) {
@@ -430,20 +389,17 @@ string giveHints(string guess, string code) {
         for (int k = 0; k < 4; k++) {
             if (guess[j] == code[k]) {
                 if (j == k) {
-                    getHint += "x";
+                    right += "x";
                     inCode = true;
                 }
                 else {
-                    getHint += "o";
+                    almost += "o";
                     inCode = true;
                 }
             }
         }
-        if (!inCode) {
-            getHint += "-";
-        }
     }
-    return getHint;
+    return right+almost;
 }
 
 
@@ -468,5 +424,19 @@ string getWinner(int p1, int p2) {
     }
     else {
         return "It's a Tie!";
+    }
+}
+
+int search() {
+    int index = 0;
+    int position = -1;
+    bool found = false;
+
+    while (index < size && !found) {
+        if (arr[index] == value) {
+            found = true;
+            position = index;
+        }
+        index++;
     }
 }
