@@ -15,10 +15,14 @@
 #include <iomanip>
 #include <string>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 // Function prototypes
+string readCode();
+string computerCode(const char []);
 string validateCode(int, const char (&)[6]);
 string computerGuess();
 string giveHints(string, string);
@@ -172,7 +176,7 @@ int main(int argc, char** argv) {
             // Computer is The Maker
             else {
                 // Get computer code
-                code = validateCode(maker, colors);
+                code = computerCode(colors);
             
                 // Guessing begins
                 cout << endl << endl;
@@ -325,6 +329,58 @@ int main(int argc, char** argv) {
 }
 
 /*
+ * 
+ * FUNCTION DEFINITIONS
+ * 
+ */
+
+
+/*
+ * 
+ */
+string readCode() {
+    ifstream codeDoc;
+    string code;
+    
+    codeDoc.open("code-doc.txt");
+    if (codeDoc) {
+        codeDoc >> code;
+        codeDoc.close();
+    }
+    
+    return code;
+}
+
+/*
+ * This function generates a random color combination.
+ * It takes the colors array as an argument.
+ * It returns a string containing the code. 
+ */
+string computerCode(const char colors[]) {
+    unsigned seed = time(0);
+    const int MIN_VAL = 1;
+    const int MAX_VAL = 6;
+    int x;
+    
+    string code = "";
+    char color;
+    
+    
+    // Seed random number generator
+    srand(seed);
+    
+    // Create a random number 4 times and use those as indices 
+    // in the colors array and add them to code to create the code
+    for (int i = 0; i < 4; i++) {
+        x = (rand() % (MAX_VAL - MIN_VAL + 1) + MIN_VAL)-1;
+        color = colors[x];
+        code += color;
+    }
+    
+    return code;
+}
+
+/*
  * This function asks The Maker to enter a code and then validates it. 
  * It takes who The Maker is and a const array containing the valid colors as arguments.
  * It returns a string containing the code written in 'code-doc.txt'.
@@ -343,11 +399,8 @@ string validateCode(int maker, const char (&colors)[6]) {
             cin >> val;
         } while (val != 49);
         val = 0;
-        codeDoc.open("code-doc.txt");
-        if (codeDoc) {
-            codeDoc >> code;
-            codeDoc.close();
-        }
+        
+        code = readCode();
 
         for (int i = 0; i < 4; i++) {
             codePc = tolower(code[i]);
@@ -393,6 +446,10 @@ string giveHints(string guess, string code) {
     return getHint;
 }
 
+
+/*
+ * Algorithm for the computer guessing the players code  
+ */
 string computerGuess() {
     
 }
