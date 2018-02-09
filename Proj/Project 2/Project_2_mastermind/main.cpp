@@ -28,6 +28,7 @@ string validateCode(int, const char (&)[6]);
 string computerGuess();
 string getHints(string, string);
 string getWinner(int, int);
+int getAmtOfColor(char, int, char);
 
 int search();
 
@@ -50,9 +51,6 @@ int main(int argc, char** argv) {
     int p1Total = 0;
     int p2Pts = 0;
     int p2Total = 0;
-    
-    string comGues[] = {};
-    string comHint[] = {};
     
     // Game variables
     const int GUESSES = 12;
@@ -132,19 +130,22 @@ int main(int argc, char** argv) {
                     snitch = "";
 
                     cout << "Guess " << i+1 << ":" << endl;
-                    if (maker == 1) {
+                    if (maker == 2) {
                         cin >> setw(4) >> guess;
                     }
                     else {
                         // Computer guesses
                         //guess = (i == 0) ? "royg" : computerGuess();  This is
                         // what I wanted to do, but I did not have time to come
-                        // up with the computerGuess() function.
-                        guess = "royg";
-                        comGues[i] = guess;
+                        // up with the computerGuess() function. Instead, computer
+                        // just makes random guesses using the same code that 
+                        // generates a code.
+                        guess = computerCode(colors);
+                        cout << guess << endl;
                     }
 
-                    // Human gives hints to computer
+                    // Snitch tattles on the human if it inputs wrong hints,
+                    // but it's also just the hints from the computer.
                     snitch = getHints(guess, code);
 
                     // The code was guessed correctly
@@ -166,13 +167,18 @@ int main(int argc, char** argv) {
                         i = GUESSES;
                     }
                     else {
-                        // Check if proper hints were given
-                        cin >> setw(4) >> hints;
-                        if (hints != snitch) {
-                            cout << "The Maker isn't being honest..." << endl;
-                            cout << "Actual hint: " << snitch << endl;
+                        if (maker == 1) {
+                            // Check if proper hints were given
+                            getline(cin, hints);
+                            cin.ignore(100, '\n');
+                            if (hints != snitch) {
+                                cout << "The Maker isn't being honest..." << endl;
+                                cout << "Actual hint: " << snitch << endl;
+                            }
                         }
-                        comHint[i] = hints;
+                        else {
+                            cout << snitch << endl;
+                        }
 
                         // Give The Maker points if The Breaker guesses wrong
                         if (i == GUESSES-1) {
@@ -244,7 +250,8 @@ int main(int argc, char** argv) {
                     }
                     else {
                         // Check if proper hints were given
-                        cin >> setw(4) >> hints;
+                        getline(cin, hints);
+                        cin.ignore(100, '\n');
                         if (hints != snitch) {
                             cout << "The Maker isn't being honest..." << endl;
                             cout << "Actual hint: " << snitch << endl;
@@ -380,26 +387,41 @@ string validateCode(int maker, const char (&colors)[6]) {
  * It takes 2 strings: the guess and the code, and returns the chkHint string.
  */
 string getHints(string guess, string code) {
-    string right = "";
+    string correct = "";
     string almost = "";
-    bool inCode;
+    bool found = false;
     
-    for (int j = 0; j < 4; j++) {
-        inCode = false;
-        for (int k = 0; k < 4; k++) {
-            if (guess[j] == code[k]) {
-                if (j == k) {
-                    right += "x";
-                    inCode = true;
+    vector<char> check;
+    
+    for (char c : code) {
+        check.push_back(c);
+    }
+    
+    // Loop thru each char in the guess
+    for (int i = 0; i < 4; i++) {
+        int j = 0;
+        found = false;
+        // Search for the color
+        while (j < 4 && !found) {
+            // If the color is found at all
+            if (guess[i] == check[j]) {
+                // If it's in the correct position
+                if (i == j) {
+                    correct += "x";
+                    // Blanking out the color ensures it won't be counted twice.
+                    check[j] = ' ';
+                    found = true;
                 }
                 else {
                     almost += "o";
-                    inCode = true;
+                    check[j] = ' ';
+                    found = true;
                 }
             }
+            j++;
         }
     }
-    return right+almost;
+    return correct+almost;
 }
 
 
@@ -427,16 +449,4 @@ string getWinner(int p1, int p2) {
     }
 }
 
-int search() {
-    int index = 0;
-    int position = -1;
-    bool found = false;
 
-    while (index < size && !found) {
-        if (arr[index] == value) {
-            found = true;
-            position = index;
-        }
-        index++;
-    }
-}
